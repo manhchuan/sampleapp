@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
   has_secure_password
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 },allow_nil: true
   validates_each :birthday do |record, attr, value|
       record.errors.add(attr, 'must be in the past') if value >= Time.now.to_date
    end
@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   # Remembers a user in the database for use in persistent sessions.
   def remember
     self.remember_token = User.new_token
-    update_attributes(:remember_digest, User.digest(remember_token))
+    update_attributes(remember_digest: User.digest(remember_token))
   end
   # Returns true if the given token matches the digest.
   def authenticated?(remember_token)
@@ -32,6 +32,6 @@ class User < ActiveRecord::Base
     BCrypt::Password.new(remember_digest).is_password?(remember_token)
   end
   def forget
-    update_attributes(:remember_digest, nil)
+    update_attributes(remember_digest: nil)
   end
 end
