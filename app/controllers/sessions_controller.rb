@@ -1,4 +1,4 @@
-class SessionsController < ApplicationController
+  class SessionsController < ApplicationController
   def new
   end
   def create
@@ -14,15 +14,6 @@ class SessionsController < ApplicationController
         flash[:warning] = message
         redirect_to root_url
       end
-
-      log_in user
-      params[:session][:remember_me] == '1' ? remember(user) : forget(user)
-      redirect_back_or user
-
-      log_in user
-      params[:session][:remember_me] == '1' ? remember(user) : forget(user)
-      redirect_back_or user
-
 	  else
 	flash.now[:danger] = 'Invalid email/password combination'
 	render 'new'
