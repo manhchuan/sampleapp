@@ -22,7 +22,7 @@ before_action :correct_user,   only: :destroy
    private
 
     def micropost_params
-      params.require(:micropost).permit(:content, :picture)
+      params.require(:micropost).permit(:content,:title)
     end	
     def correct_user
       @micropost = current_user.microposts.find_by(id: params[:id])
