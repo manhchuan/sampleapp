@@ -3,6 +3,7 @@ class RelationshipsController < ApplicationController
 
   def create
     @user = User.find(params[:followed_id])
+    @microposts = @user.microposts.paginate(page: params[:page])
     current_user.follow(@user)
     respond_to do |format|
       format.html { redirect_to @user }
@@ -12,6 +13,7 @@ class RelationshipsController < ApplicationController
 
   def destroy
     @user = Relationship.find(params[:id]).followed
+    @microposts = @user.microposts.paginate(page: params[:page])
     current_user.unfollow(@user)
     respond_to do |format|
       format.html { redirect_to @user }

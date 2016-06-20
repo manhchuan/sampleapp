@@ -13,4 +13,14 @@
                                        data: { confirm: "You sure?" } %>
     <% end %>
   </span>
+  <div id="comments_<%= micropost.id %>">
+    <% if micropost.comments.any? %>
+      <%= render micropost.comments, micropost: micropost %>
+    <%end%>
+  </div>
+  <% if logged_in? %>
+    <% if current_user.following?(micropost.user) || current_user?(micropost.user) %>
+    <%= render 'shared/comment_form', micropost: micropost %>
+    <% end %>
+  <%end%>
 </li>
